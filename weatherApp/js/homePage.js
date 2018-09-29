@@ -37,6 +37,7 @@ $(function(){
 
     $(".hot-city ul li span").click(function () {
         $(".main-day ul li").css({"display":"none"});
+        // $(".main-day ul li").remove();
         $(".comprehensive-bottom>ul li").css({"display":"none"});
         $(".comprehensive-top>ul li").css({"display":"none"});
         let city1=$(this).html();
@@ -106,7 +107,7 @@ $(function(){
         }
         // console.log(flag);
         if(flag==true){
-            flag=false;
+            // flag=false;
             $(".main-day ul li").css({"display":"none"});
             $(".comprehensive-bottom>ul li").css({"display":"none"});
             $(".comprehensive-top>ul li").css({"display":"none"});
@@ -196,6 +197,10 @@ $(function(){
         //         $(".comprehensive-top>ul").append(str1);
         //     }
         // });
+        let arrdata=[];
+        let arrhigh=[];
+        let arrlow=[];
+
         for(let i=0;i<6;i++){
             let str1=`<li>
                          <p>${hweather1[i].date.slice(5,10)}</p>
@@ -210,9 +215,63 @@ $(function(){
                         <p>${hweather1[i].wind_level}级</p>
                     </li>`;
             $(".comprehensive-bottom>ul").append(str2);
+
+            arrdata.push(hweather1[i].date);
+            arrhigh.push(hweather1[i].high_temperature);
+            arrlow.push(hweather1[i].low_temperature);
         }
 
+        //折线图
+    let myChart = echarts.init($(".comprehensive-center1")[0]);
+        let option = {
+            title: {
+            },
+            tooltip: {},
+            xAxis: {
+                data:arrdata,
+                show:false
+            },
+            yAxis: {
+                show:false
+            },
+            series: [{
+                itemStyle : {
+                    normal : {
+                        label : {show: true},
+                        color:'#FFB74D',
+                        lineStyle:{
+                            color:'#FFB74D'
+                        }
+                    }
+                },
+                name:'最高温度',
+                type: 'line',
+                data: arrhigh
+            },
+                {
+                    itemStyle : {
+                        normal : {
+                            label : {show: true},
+                            color:'#4FC3F7',
+                            lineStyle:{
+                                color:'#4FC3F7'
+                            }
+                        }
+                    },
+                    name:'最低温度',
+                    type: 'line',
+                    data: arrlow
+                }
+            ],
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
     }
+
+
+    
 
 
 });
