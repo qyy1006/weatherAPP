@@ -161,6 +161,9 @@
 .main-day ul {
     width: 35.1rem;
 }
+.main-day::-webkit-scrollbar {
+    display: none;
+}
 .main-day ul li {
     width: 1.35rem;
     height: 1.65rem;
